@@ -5,7 +5,8 @@ class Player
     @cards = []
   end
 
-  def <<(card)
+  def hit!(deck)
+    card = deck.cards.shift
     card.ace? ? @cards << card : @cards.insert(0, card)
   end
 
