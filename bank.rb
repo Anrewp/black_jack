@@ -14,15 +14,21 @@ class Bank
     @@bet_sum += BET
   end
 
-  def add(value)
-    @sum += value
+  def add_winning_price!
+    @sum += @@bet_sum
+    Bank.reset!
   end
 
-  def self.reset_bet_sum
-    @@bet_sum = 0
+  def add_bet!
+    @sum += BET
+    Bank.reset!
   end
 
   def self.bet_sum
     @@bet_sum
+  end
+
+  def self.reset!
+    @@bet_sum = 0
   end
 end

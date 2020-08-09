@@ -16,13 +16,11 @@ class Game
     2.times { @player.hit!(@deck) && @diller.hit!(@deck) }
   end
 
-  def skip!
-    #NI
+  def player_skip!
     diller_move
   end
 
-  def hit!
-    # Only if 2 cards
+  def player_hit!
     return if @player.cards.size == MAX_CARDS
 
     @player.hit!(@deck)
@@ -31,37 +29,33 @@ class Game
   def determen_winner
     player_hand_value = @player.hand_value
     diller_hand_value = @diller.hand_value
-    case player_hand_value
-    when 4..21
-      return winner(@player) if diller_hand_value > MAX_VALUE
+    return winner(@diller) if player_hand_value > MAX_VALUE
+    return winner(@player) if diller_hand_value > MAX_VALUE
 
-      if player_hand_value > diller_hand_value
-        winner(@player)
-      elsif player_hand_value == diller_hand_value
-        add_bank_sum_to_winner
-        'draw'
-      else
-        winner(@diller)
-      end
-    else
-      winner(@diller)
+    if    player_hand_value >  diller_hand_value then winner(@player)
+    elsif player_hand_value == diller_hand_value then winner
+    else  winner(@diller)
     end
   end
 
   private
 
-  def winner(player)
+  def winner(player = nil)
     add_bank_sum_to_winner(player)
-    player.name
+    reset_player_hands
+    player ? player.name : 'draw'
   end
 
   def add_bank_sum_to_winner(player = nil)
     if player
-      player.bank.add(Bank.bet_sum)
+      player.bank.add_winning_price!
     else
-      @player.bank.add(Bank::BET) && @diller.bank.add(Bank::BET)
+      @player.bank.add_bet! && @diller.bank.add_bet!
     end
-    Bank.reset_bet_sum
+  end
+
+  def reset_player_hands
+    @diller.reset_hand! && @player.reset_hand!
   end
 
   def diller_move

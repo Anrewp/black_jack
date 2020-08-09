@@ -25,4 +25,8 @@ class Player
              end
     end
   end
+
+  def reset_hand!
+    @cards = []
+  end
 end
