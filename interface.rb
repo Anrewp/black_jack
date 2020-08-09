@@ -1,7 +1,7 @@
 class Interface
   def initialize
     # :not_implemented
-    @player_name = ''
+    @player_name = 'Player'
   end
 
   def run
@@ -9,7 +9,7 @@ class Interface
     enter_name
     loop do
       break if press_enter_to_continue['0']
-      puts @player_name
+
     end
   end
 
@@ -29,6 +29,7 @@ class Interface
 
   def enter_name
     puts 'Enter your name: '
-    @player_name = gets.chomp.to_s
+    name = gets.chomp.to_s
+    @player_name = name unless name.empty?
   end
 end
