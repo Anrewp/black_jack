@@ -14,12 +14,8 @@ class Deck
   def build_deck
     cards = []
     SUITS.each do |suit|
-      NUMBERS.each do |number|
-        cards << Card.new(suit, number)
-      end
-      FACECARDS.each do |facecard|
-        cards << Card.new(suit, facecard)
-      end
+      NUMBERS.each   { |number| cards << Card.new(suit, number) }
+      FACECARDS.each { |facecard| cards << Card.new(suit, facecard) }
     end
     cards.shuffle
   end

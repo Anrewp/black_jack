@@ -21,9 +21,10 @@ class Game
   end
 
   def player_hit!
-    return if @player.cards.size == MAX_CARDS
+    return if max_cards?(@player)
 
     @player.hit!(@deck)
+    diller_move
   end
 
   def determen_winner
@@ -36,6 +37,10 @@ class Game
     elsif player_hand_value == diller_hand_value then winner
     else  winner(@diller)
     end
+  end
+
+  def max_cards?(player)
+    player.cards.size == MAX_CARDS
   end
 
   private
@@ -59,7 +64,7 @@ class Game
   end
 
   def diller_move
-    return if @diller.cards.size == MAX_CARDS || @diller.hand_value >= AVERAGE_VALUE
+    return if max_cards?(@diller) || @diller.hand_value >= AVERAGE_VALUE
 
     @diller.hit!(@deck)
   end
